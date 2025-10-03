@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <html lang="id">
 <head>
@@ -5,30 +8,34 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Sistem Jual Beli Emas — Toko Tengko</title>
   <meta name="description" content="Platform jual beli emas online — beli, jual, dan simpan emas dengan aman. Cek harga realtime, histori transaksi, dan layanan penitipan.">
-
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
   <header role="banner">
     <div class="container">
-      <a href="/" class="brand" aria-label="Beranda Sistem Jual Beli Emas">
+      <a href="index.php" class="brand" aria-label="Beranda Sistem Jual Beli Emas">
         <h1>Sistem Jual Beli Emas</h1>
       </a>
 
       <nav role="navigation" aria-label="Navigasi utama">
         <ul>
-          <li><a href="#harga">Harga</a></li>
-          <li><a href="#produk">Produk</a></li>
-          <li><a href="#cara-kerja">Cara Kerja</a></li>
-          <li><a href="#testimoni">Testimoni</a></li>
-          <li><a href="#kontak">Kontak</a></li>
+          <li><a href="index.php#harga">Harga</a></li>
+          <li><a href="index.php#produk">Produk</a></li>
+          <li><a href="index.php#cara-kerja">Cara Kerja</a></li>
+          <li><a href="index.php#testimoni">Testimoni</a></li>
+          <li><a href="index.php#kontak">Kontak</a></li>
         </ul>
       </nav>
 
       <div class="auth">
-        <a href="/login">Masuk</a> |
-        <a href="/register">Daftar</a>
+        <?php if (isset($_SESSION['username'])): ?>
+          <a href="dashboard.php">Dashboard</a> |
+          <a href="logout.php">Logout</a>
+        <?php else: ?>
+          <a href="login.php">Masuk</a> |
+          <a href="register.php">Daftar</a>
+        <?php endif; ?>
       </div>
     </div>
   </header>
@@ -39,7 +46,11 @@
         <h2 id="hero-heading">Beli dan Jual Emas dengan Mudah & Aman</h2>
         <p>Cek harga emas realtime, beli per-gram, jual kembali kapan saja. Penyimpanan aman dan laporan transaksi otomatis.</p>
         <p>
-          <a href="/register" class="btn-primary">Mulai Sekarang</a>
+          <?php if (!isset($_SESSION['username'])): ?>
+            <a href="login.php" class="btn-primary">Mulai Sekarang</a>
+          <?php else: ?>
+            <a href="dashboard.php" class="btn-primary">Pergi ke Dashboard</a>
+          <?php endif; ?>
           <a href="#cara-kerja" class="btn-secondary">Pelajari Cara Kerja</a>
         </p>
       </div>
@@ -48,31 +59,31 @@
         <h3 id="harga-terbaru">Harga Emas Hari Ini</h3>
         <p class="price">Rp 1.000.000 / gram</p>
         <small>Update terakhir: 14 Sep 2025, 20:00</small>
-        <p><a href="/market">Lihat grafik & histori</a></p>
+        <p><a href="index.php?view=market">Lihat grafik & histori</a></p>
       </aside>
     </div>
   </section>
 
   <main role="main">
 
-<section id="produk" aria-labelledby="produk-heading">
-  <div class="container">
-    <h2 id="produk-heading">Produk Emas</h2>
-    <ul class="product-list">
-      <li class="product-item" data-gram="1">
-        <h3>Emas Batangan 1 gram</h3>
-        <p class="harga-produk">Rp -</p>
-        <a href="/buy/1" class="btn-small">Beli</a>
-      </li>
+    <section id="produk" aria-labelledby="produk-heading">
+      <div class="container">
+        <h2 id="produk-heading">Produk Emas</h2>
+        <ul class="product-list">
+          <li class="product-item" data-gram="1">
+            <h3>Emas Batangan 1 gram</h3>
+            <p class="harga-produk">Rp -</p>
+            <a href="index.php?buy=1" class="btn-small">Beli</a>
+          </li>
 
-      <li class="product-item" data-gram="5">
-        <h3>Emas Batangan 5 gram</h3>
-        <p class="harga-produk">Rp -</p>
-        <a href="/buy/5" class="btn-small">Beli</a>
-      </li>
-    </ul>
-  </div>
-</section>
+          <li class="product-item" data-gram="5">
+            <h3>Emas Batangan 5 gram</h3>
+            <p class="harga-produk">Rp -</p>
+            <a href="index.php?buy=5" class="btn-small">Beli</a>
+          </li>
+        </ul>
+      </div>
+    </section>
 
     <section id="cara-kerja" aria-labelledby="cara-kerja-heading">
       <div class="container">
@@ -111,9 +122,9 @@
 
       <nav aria-label="Footer navigation">
         <ul>
-          <li><a href="/terms">Ketentuan</a></li>
-          <li><a href="/privacy">Kebijakan Privasi</a></li>
-          <li><a href="/faq">FAQ</a></li>
+          <li><a href="index.php?view=terms">Ketentuan</a></li>
+          <li><a href="index.php?view=privacy">Kebijakan Privasi</a></li>
+          <li><a href="index.php?view=faq">FAQ</a></li>
         </ul>
       </nav>
 
